@@ -1,0 +1,1 @@
+export {default as authenticateMiddleware} from "./authentication.middleware"

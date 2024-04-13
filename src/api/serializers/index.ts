@@ -1,0 +1,1 @@
+export {default as ProductUserSerializer} from "./product-user.serializer"

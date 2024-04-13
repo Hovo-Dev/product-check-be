@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "baseUrl": "./src",
+    "paths": {
+      "@/api/*": ["api/*"],
+      "@/config/*": ["config/*"],
+      "@/common/*": ["common/*"],
+      "@/common-dto/*": ["common/dto/*"],
+      "@/models/*": ["data-layer/models/*"],
+      "@/repositories/*": ["data-layer/repository/*"],
+      "@/model-types/*": ["data-layer/interface/*"]
+    },
+    "typeRoots": [
+      "./typings"
+    ]
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
