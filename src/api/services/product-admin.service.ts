@@ -43,7 +43,7 @@ class ProductAdminService {
             const product = await ProductRepository.findProductByName(addProductPayload.name)
             if (product) {
                 console.error(`AddProductService: Product ${addProductPayload.name} already exists`)
-                throw new BadRequest400Exception('PRODUCT_ALREADY_EXISTS')
+                throw new BadRequest400Exception('Product Already Exists')
             }
 
             const newProduct = await ProductRepository.createProduct(addProductPayload.name, addProductPayload.price)

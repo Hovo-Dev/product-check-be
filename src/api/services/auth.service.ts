@@ -14,13 +14,13 @@ class AuthService {
             const user = await UserRepository.findUser(loginPayload.username)
             if (!user) {
                 console.error(`LoginAuthService: User not found ${loginPayload.username}`)
-                throw new NotFound404Exception("USER_NOT_FOUND")
+                throw new NotFound404Exception("User Not Found")
             }
 
-            const isValid = hashService.compareWithEncrypted(loginPayload.password, user.password)
+            const isValid = await hashService.compareWithEncrypted(loginPayload.password, user.password)
             if (!isValid) {
                 console.error(`LoginAuthService: User not found ${loginPayload.username}`)
-                throw new NotFound404Exception("USER_NOT_FOUND")
+                throw new NotFound404Exception("User Not Found")
             }
 
             const jwtPayload = new JwtPayloadDto(user)
@@ -43,13 +43,13 @@ class AuthService {
             const verifiedToken = jwtService.verifyRefreshToken(refreshTokenPayload.refreshToken) as IJwtPayload
             if (!verifiedToken) {
                 console.error(`AuthRefreshService: Refresh Token Expired`)
-                throw new BadRequest400Exception("TOKEN_EXPIRED")
+                throw new BadRequest400Exception("Token Expired")
             }
 
             const user = await UserRepository.findById(verifiedToken._id)
             if (!user) {
                 console.error(`AuthRefreshService: User not found`)
-                throw new NotFound404Exception("USER_NOT_FOUND")
+                throw new NotFound404Exception("User Not Found")
             }
 
             const jwtPayload = new JwtPayloadDto(user)

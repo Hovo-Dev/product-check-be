@@ -7,6 +7,6 @@ const router = express.Router()
 
 router.post('/add', authenticateMiddleware.validateAdmin, addProductValidator, ProductAdminController.addProduct)
 router.get('/history', authenticateMiddleware.validateAdmin, ProductAdminController.getUserPurchasedProducts)
-router.get('/', authenticateMiddleware.validateAdmin, ProductAdminController.getProducts)
+router.get('/', ProductAdminController.getProducts)
 
 export default router

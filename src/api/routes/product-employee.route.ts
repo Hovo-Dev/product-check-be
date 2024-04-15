@@ -5,6 +5,6 @@ import {buyProductsValidator} from "@/api/validators/productValidator";
 
 const router = express.Router()
 
-router.post('/buy', authenticateMiddleware.authenticateUser, buyProductsValidator, ProductEmployeeController.buyProducts)
+router.post('/buy', authenticateMiddleware.authenticateEmployeeUser, buyProductsValidator, ProductEmployeeController.buyProducts)
 
 export default router

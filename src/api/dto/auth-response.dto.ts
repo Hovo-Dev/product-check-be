@@ -1,15 +1,17 @@
 import {TokenDto} from "@/common/dto/auth.dto";
-import {IUser} from "@/model-types/mongoose/user.interface";
+import {EUserType, IUser} from "@/model-types/mongoose/user.interface";
 
 class AuthResponseDto extends TokenDto {
     constructor(user: IUser, token: string, refreshToken: string) {
         super(token, refreshToken)
-        this.id = user._id
+        this._id = user._id
         this.username = user.username
+        this.type = user.type
     }
 
-    id: string;
+    _id: string;
     username: string
+    type: EUserType
 }
 
 export default AuthResponseDto

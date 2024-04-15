@@ -58,7 +58,7 @@ class AuthMiddleware {
         }
     }
 
-    authenticateUser(req: Request, res: Response, next: NextFunction) {
+    authenticateEmployeeUser(req: Request, res: Response, next: NextFunction) {
         try {
             const authHeader = req.headers['authorization']
             const token = authHeader && authHeader.split(' ')[1]
@@ -94,6 +94,50 @@ class AuthMiddleware {
                     return res.status(403).json(new ExceptionDto({
                         message: 'USER_PERMISSION_DENIED',
                         status: HttpStatus.Forbidden
+                    }))
+                }
+
+                req.user = new AuthenticationDto(userData)
+
+                next()
+            })
+        } catch (error: any) {
+            console.error(`Authenticate Middleware: ${error}`)
+            return res.status(500).json(new ExceptionDto({
+                message: 'ADMIN_VALIDATE_MIDDLEWARE_INTERNAL',
+                status: HttpStatus.Internal
+            }))
+        }
+    }
+
+    authenticateUser(req: Request, res: Response, next: NextFunction) {
+        try {
+            const authHeader = req.headers['authorization']
+            const token = authHeader && authHeader.split(' ')[1]
+
+            if (!token) {
+                console.error(`Authenticate Middleware: Token not provided`)
+                return res.status(401).json(new ExceptionDto({
+                    message: 'TOKEN_REQUIRED',
+                    status: HttpStatus.UnAuthorized
+                }))
+            }
+
+            jwtService.verifyToken(token, async (error, verifiedData) => {
+                if (error) {
+                    console.error(`Authenticate Middleware: ${error}`)
+                    return res.status(401).json(new ExceptionDto({
+                        message: 'TOKEN_INVALID',
+                        status: HttpStatus.UnAuthorized
+                    }))
+                }
+
+                const userData = await UserRepository.findById((verifiedData as IJwtPayload)._id)
+                if (!userData) {
+                    console.error("Authenticate Middleware: User not found")
+                    return res.status(403).json(new ExceptionDto({
+                        message: 'USER_NOT_FOUND',
+                        status: HttpStatus.NotFound
                     }))
                 }
 
